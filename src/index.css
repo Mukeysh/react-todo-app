@@ -110,8 +110,36 @@ input[type="text"] {
 }
 .todo-list li {
   margin-bottom: 3rem;
+  display: flex;
+  justify-content: space-between;
 }
 
+.todo-list li .delete {
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.todo-list li .delete svg {
+  width: 18px;
+}
+.delete-all {
+  display: flex;
+  justify-content: flex-end;
+}
+.delete-all button {
+  background: var(--orange);
+  color: var(--white);
+  font-size: 1.2rem;
+  padding: 1.2rem 2.8rem;
+  border: 0;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.delete-all svg {
+  width: 14px;
+}
 /*** checkbox css ***/
 .todo-list input {
   display: none;

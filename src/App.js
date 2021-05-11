@@ -10,17 +10,20 @@ import { CompletedToDo } from "./components/CompletedToDo";
 function App() {
   const [todo, setTodo] = useState(data);
   const [activeTodo, setActiveToDo] = useState(0);
+
   const addToDoHandler = (todoItem) => {
     setTodo([
       ...todo,
       { id: new Date().getTime().toString(), completed: false, todo: todoItem },
     ]);
   };
+
   const completedTasks = (index) => {
     const newTasks = [...todo];
     newTasks[index].completed = !newTasks[index].completed;
     setTodo(newTasks);
   };
+
   useEffect(() => {
     const newData = JSON.parse(localStorage.getItem("react-todo-app-data"));
     if (newData) {
@@ -31,6 +34,21 @@ function App() {
   useEffect(() => {
     localStorage.setItem("react-todo-app-data", JSON.stringify(todo));
   }, [todo]);
+
+  const deleteHandler = (id) => {
+    const newItems = todo.filter((item) => item.id !== id);
+    setTodo(newItems);
+  };
+
+  const deleteAllHandler = () => {
+    const message = window.confirm(
+      "Do you really want to delete all completed items?"
+    );
+    if (message) {
+      const newItems = todo.filter((item) => item.completed !== true);
+      setTodo(newItems);
+    }
+  };
   return (
     <div className="app">
       <div className="task-container">
@@ -69,7 +87,13 @@ function App() {
           <ToDoList data={todo} completed={completedTasks} />
         )}
         {activeTodo === 1 && <ActiveToDo data={todo} />}
-        {activeTodo === 2 && <CompletedToDo data={todo} />}
+        {activeTodo === 2 && (
+          <CompletedToDo
+            data={todo}
+            delete={deleteHandler}
+            deleteAll={deleteAllHandler}
+          />
+        )}
       </div>
       <Footer username="Mukeysh" link="https://github.com/Mukeysh" />
     </div>
